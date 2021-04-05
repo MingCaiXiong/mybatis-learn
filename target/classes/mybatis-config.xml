@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--设置成支持驼峰命名-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--指定对应的数据库，这个可以不写，插件会自动识别，但是严谨角度建议还是写一下-->
+            <property name="helperDialect" value="mysql"/>
+            <!--开启分页合理化（如输入第0页时，展示第一页数据，输入超过最大页数的数据时候，展示最大页数的数据）-->
+            <property name="reasonable" value="true"/>
+        </plugin>
+    </plugins>
+    <environments default="c3p0">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/babytun"/>
+                <property name="username" value="root"/>
+                <property name="password" value="NewPassword"/>
+            </dataSource>
+        </environment>
+        <environment id="c3p0">
+            <transactionManager type="JDBC"/>
+            <dataSource type="top.xiongmingcai.mybatis.datasource.C3P0DataSourceFactory">
+                <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="jdbcUrl"
+                          value="jdbc:mysql://localhost:3306/babytun?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=GMT"/>
+                <property name="user" value="root"/>
+                <property name="password" value="NewPassword"/>
+                <property name="initialPoolSize" value="5"/>
+                <property name="maxPoolSize" value="20"/>
+                <property name="minPoolSize" value="5"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 映射文件 -->
+    <mappers>
+        <mapper resource="mappers/Teacher.xml"/>
+        <!-- <mapper class="top.xiongmingcai.mybatis.dao.StudentDao"/>-->
+<!--         <package name="top.xiongmingcai.mybatis.dao"/>-->
+    </mappers>
+
+</configuration>

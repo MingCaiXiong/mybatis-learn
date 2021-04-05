@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="teacher">
+    <!-- 查询全部用户 -->
+    <select id="queryUsers" resultType="top.xiongmingcai.mybatis.entity.Teacher">
+        select * from teacher ;
+    </select>
+
+    <select id="queryUserById" resultType="top.xiongmingcai.mybatis.entity.Teacher" parameterType="Integer">
+        select * from teacher where id = #{value };
+    </select>
+    <select id="queryUserRangeId" resultType="top.xiongmingcai.mybatis.entity.Teacher" parameterType="java.util.Map">
+        select * from teacher where id between #{min} and #{max} limit #{limt}
+    </select>
+    <!--    INSERT INTO table-->
+    <!--    VALUES ("a1","a2","a3"),("b1","b2","b3"),(...)-->
+    <!--批量新增-->
+    <!--因为批处理是一次性导入多条，所以这里使用list-->
+    <!--foreach类似for循环 collection：迭代的数据源，固定写入list，表示从外界传入的list集合 ，item；循环中的迭代变量
+    ，item：索引，类似于数字，seperator：分割符号-->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO babytun.teacher (
+                                     name,
+                                     sex,
+                                     j_no,
+                                     subject,
+                                     grade,
+                                     description)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.name},
+             #{item.sex},
+             #{item.jNo},
+             #{item.subject},
+             #{item.grade},
+             #{item.description})
+        </foreach>
+    </insert>
+
+    <select id="selectPage" resultType="top.xiongmingcai.mybatis.entity.Teacher">
+        select * from teacher where id  &lt; 100499 order by  id
+    </select>
+</mapper>
